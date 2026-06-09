@@ -186,12 +186,11 @@
   .open-btn.unset{color:var(--ink-faint);border-style:dashed;cursor:default}
   .open-btn.unset:hover{border-color:var(--line-bright);color:var(--ink-faint)}
   .edit-link-btn{
-    display:none;background:transparent;border:1px solid var(--line);
+    display:inline-flex;background:transparent;border:1px solid var(--line);
     color:var(--ink-faint);border-radius:9px;padding:10px 12px;cursor:pointer;
     font-family:var(--font-mono);font-size:11px;transition:all .15s;
   }
   .edit-link-btn:hover{color:var(--amber);border-color:var(--amber)}
-  body.editing .edit-link-btn{display:inline-flex}
 
   /* ============ RESOURCES ROW ============ */
   .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:64px}
@@ -244,9 +243,6 @@
       <div class="brand-mark">N</div>
       <div class="brand-name">Cohere North <span>/ Energy Vertical</span></div>
     </div>
-    <div class="top-actions">
-      <button class="btn-ghost" id="editToggle" title="Set or change the URL behind each tool">Edit links</button>
-    </div>
   </div>
 </header>
 
@@ -276,8 +272,6 @@
     <div class="stat"><b>267</b><span>Verified VIP contacts</span></div>
     <div class="stat"><b>13</b><span>Objections handled</span></div>
   </section>
-
-  <div class="edit-banner">Edit mode — use the ✎ button on a tile to set its URL. Links are saved in this browser and travel with the page when hosted.</div>
 
   <div class="sect">
     <h2>Tools &amp; Consoles</h2>
@@ -427,32 +421,33 @@
   // Default link targets — edit here, or use "Edit links" in the UI (saved to localStorage).
   var DEFAULTS = {
     useCaseConsole:   "",
-    questionnaire:    "https://jeffmonk-cohere.github.io/NORTH-Customer-Use-Case-Questionnaire-/",
+    questionnaire:    "https://jeffmonk-cohere.github.io/Questionnaire/",
     valueAppraisal:   "https://jeffmonk-cohere.github.io/Value-Appraisal/",
     energyDirectory:  "",
     masterAccounts:   "",
     objectionHandling:"",
     presentationDeck: "https://docs.google.com/presentation/d/1vIYujcDiQdj4KubvmEvj49Nev2dsGt8yENUfz5VDViY/present"
   };
-  var STORE_KEY = "energyHubLinks_v1";
+  var STORE_KEY = "energyHubLinks_v2"; // stores only user overrides
 
-  function loadLinks(){
-    try{
-      var saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
-      return Object.assign({}, DEFAULTS, saved);
-    }catch(e){ return Object.assign({}, DEFAULTS); }
+  function loadOverrides(){
+    try{ return JSON.parse(localStorage.getItem(STORE_KEY) || "{}"); }
+    catch(e){ return {}; }
   }
-  function saveLinks(links){
-    try{ localStorage.setItem(STORE_KEY, JSON.stringify(links)); }catch(e){}
+  function saveOverrides(o){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(o)); }catch(e){}
   }
 
-  var links = loadLinks();
+  var overrides = loadOverrides();
+  function linkFor(key){
+    return overrides.hasOwnProperty(key) ? overrides[key] : (DEFAULTS[key] || "");
+  }
 
   function render(){
     document.querySelectorAll(".card[data-key]").forEach(function(card){
       var key = card.getAttribute("data-key");
       var a = card.querySelector("[data-open]");
-      var url = links[key];
+      var url = linkFor(key);
       if(url){
         a.href = url;
         a.classList.remove("unset");
@@ -469,7 +464,7 @@
     var key = card.getAttribute("data-key");
     var a = card.querySelector("[data-open]");
     a.addEventListener("click", function(ev){
-      if(!links[key]){
+      if(!linkFor(key)){
         ev.preventDefault();
         promptForUrl(card, key);
       }
@@ -481,21 +476,17 @@
 
   function promptForUrl(card, key){
     var name = card.querySelector("h3").textContent;
-    var current = links[key] || "";
-    var input = window.prompt("URL for \u201c" + name + "\u201d:", current);
+    var input = window.prompt("URL for \u201c" + name + "\u201d:", linkFor(key));
     if(input === null) return;            // cancelled
-    links[key] = input.trim();
-    saveLinks(links);
+    var val = input.trim();
+    if(val === (DEFAULTS[key] || "")){
+      delete overrides[key];              // back to default — no override needed
+    }else{
+      overrides[key] = val;
+    }
+    saveOverrides(overrides);
     render();
   }
-
-  var editing = false;
-  document.getElementById("editToggle").addEventListener("click", function(){
-    editing = !editing;
-    document.body.classList.toggle("editing", editing);
-    this.classList.toggle("active", editing);
-    this.textContent = editing ? "Done" : "Edit links";
-  });
 
   render();
 })();
