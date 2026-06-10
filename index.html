@@ -192,6 +192,53 @@
   }
   .edit-link-btn:hover{color:var(--amber);border-color:var(--amber)}
 
+  /* ============ ADD-TOOL TILE ============ */
+  .add-tile{
+    border:1.5px dashed var(--line-bright);border-radius:var(--radius);
+    background:transparent;color:var(--ink-faint);cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    min-height:230px;font-family:var(--font-display);font-size:14px;font-weight:500;
+    transition:all .18s;
+  }
+  .add-tile:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+  .add-tile .plus{
+    width:40px;height:40px;border-radius:50%;border:1.5px solid currentColor;
+    display:grid;place-items:center;font-size:22px;font-weight:400;line-height:1;
+  }
+
+  /* ============ MODAL ============ */
+  .modal-back{
+    position:fixed;inset:0;background:rgba(5,8,12,.72);backdrop-filter:blur(3px);
+    display:none;place-items:center;z-index:100;padding:20px;
+  }
+  .modal-back.open{display:grid}
+  .modal{
+    background:var(--bg-raise);border:1px solid var(--line-bright);border-radius:16px;
+    width:min(540px,100%);padding:28px;max-height:90vh;overflow-y:auto;
+  }
+  .modal h3{font-family:var(--font-display);font-size:20px;font-weight:600;margin-bottom:20px}
+  .field{margin-bottom:14px}
+  .field label{
+    display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;
+  }
+  .field input,.field select,.field textarea{
+    width:100%;background:var(--bg);border:1px solid var(--line-bright);color:var(--ink);
+    border-radius:8px;padding:10px 12px;font-family:var(--font-body);font-size:13.5px;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{
+    outline:none;border-color:var(--amber);
+  }
+  .field textarea{resize:vertical}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+  .btn-primary{
+    background:var(--amber);color:#16100a;border:none;border-radius:8px;
+    padding:10px 20px;font-family:var(--font-display);font-weight:600;font-size:13.5px;
+    cursor:pointer;transition:filter .15s;
+  }
+  .btn-primary:hover{filter:brightness(1.1)}
+
   /* ============ RESOURCES ROW ============ */
   .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:64px}
   .res{
@@ -242,6 +289,11 @@
     <div class="brand">
       <div class="brand-mark">N</div>
       <div class="brand-name">Cohere North <span>/ Energy Vertical</span></div>
+    </div>
+    <div class="top-actions">
+      <button class="btn-ghost" id="exportBtn" title="Download your links and custom tools as a JSON file">Export setup</button>
+      <button class="btn-ghost" id="importBtn" title="Load a previously exported setup file">Import</button>
+      <input type="file" id="importFile" accept="application/json" hidden>
     </div>
   </div>
 </header>
@@ -385,6 +437,11 @@
       </div>
     </article>
 
+    <button class="add-tile" id="addTile" type="button" aria-label="Add a new tool to the Command Center">
+      <span class="plus">+</span>
+      Add a tool
+    </button>
+
   </section>
 
   <div class="sect">
@@ -489,6 +546,192 @@
   }
 
   render();
+})();
+</script>
+
+<div class="modal-back" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <h3 id="modalTitle">Add a tool</h3>
+    <div class="field">
+      <label for="fName">Name</label>
+      <input id="fName" type="text" placeholder="e.g., CenterPoint Pilot Console">
+    </div>
+    <div class="field">
+      <label for="fUrl">URL</label>
+      <input id="fUrl" type="url" placeholder="https://jeffmonk-cohere.github.io/...">
+    </div>
+    <div class="field">
+      <label for="fCategory">Category</label>
+      <select id="fCategory">
+        <option>Discovery</option>
+        <option>Value</option>
+        <option>Accounts</option>
+        <option>Competitive</option>
+        <option>Pitch</option>
+        <option selected>Other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="fDesc">Description</label>
+      <textarea id="fDesc" rows="2" placeholder="One line on what it does"></textarea>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="fMeta1">Stat 1</label>
+        <input id="fMeta1" type="text" placeholder="e.g., 26 use cases">
+      </div>
+      <div class="field">
+        <label for="fMeta2">Stat 2</label>
+        <input id="fMeta2" type="text" placeholder="e.g., JSON export">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="modalCancel" type="button">Cancel</button>
+      <button class="btn-primary" id="modalSave" type="button">Save tool</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var CUSTOM_KEY = "energyHubCustomCards_v1";
+  var LINKS_KEY  = "energyHubLinks_v2";
+  var CATS = {
+    "Discovery":  {color:"#f0a437", bg:"rgba(240,164,55,.12)"},
+    "Value":      {color:"#4cc38a", bg:"rgba(76,195,138,.10)"},
+    "Accounts":   {color:"#5aa7d6", bg:"rgba(90,167,214,.10)"},
+    "Competitive":{color:"#d96a6a", bg:"rgba(217,106,106,.10)"},
+    "Pitch":      {color:"#b48ce0", bg:"rgba(180,140,224,.10)"},
+    "Other":      {color:"#8da2b5", bg:"rgba(141,162,181,.10)"}
+  };
+  function load(){ try{ return JSON.parse(localStorage.getItem(CUSTOM_KEY)||"[]"); }catch(e){ return []; } }
+  function save(list){ try{ localStorage.setItem(CUSTOM_KEY, JSON.stringify(list)); }catch(e){} }
+  var cards = load();
+
+  var grid = document.getElementById("toolGrid");
+  var addTile = document.getElementById("addTile");
+  var modalBack = document.getElementById("modalBack");
+  var modalTitle = document.getElementById("modalTitle");
+  var editingId = null;
+
+  var f = {
+    name: document.getElementById("fName"),
+    url: document.getElementById("fUrl"),
+    category: document.getElementById("fCategory"),
+    desc: document.getElementById("fDesc"),
+    meta1: document.getElementById("fMeta1"),
+    meta2: document.getElementById("fMeta2")
+  };
+
+  function esc(s){ var d=document.createElement("div"); d.textContent=s||""; return d.innerHTML; }
+
+  function renderCustom(){
+    grid.querySelectorAll("[data-custom-id]").forEach(function(el){ el.remove(); });
+    cards.forEach(function(c){
+      var cat = CATS[c.category] || CATS.Other;
+      var art = document.createElement("article");
+      art.className = "card";
+      art.style.setProperty("--accent", cat.color);
+      art.setAttribute("data-custom-id", c.id);
+      var meta = "";
+      if(c.meta1) meta += '<span><b>'+esc(c.meta1)+'</b></span>';
+      if(c.meta2) meta += '<span>'+esc(c.meta2)+'</span>';
+      art.innerHTML =
+        '<div class="card-head"><h3>'+esc(c.name)+'</h3>'+
+        '<span class="chip" style="background:'+cat.bg+';color:'+cat.color+'">'+esc(c.category)+'</span></div>'+
+        '<p>'+esc(c.description)+'</p>'+
+        (meta ? '<div class="card-meta">'+meta+'</div>' : '')+
+        '<div class="card-foot">'+
+          '<a class="open-btn" href="'+esc(c.url)+'" target="_blank" rel="noopener">Open '+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg></a>'+
+          '<button class="edit-link-btn" data-c-edit title="Edit this tool">✎</button>'+
+          '<button class="edit-link-btn" data-c-del title="Remove this tool">✕</button>'+
+        '</div>';
+      art.querySelector("[data-c-edit]").addEventListener("click", function(){ openModal(c.id); });
+      art.querySelector("[data-c-del]").addEventListener("click", function(){
+        if(confirm('Remove \u201c'+c.name+'\u201d from the Command Center?')){
+          cards = cards.filter(function(x){ return x.id !== c.id; });
+          save(cards); renderCustom();
+        }
+      });
+      grid.insertBefore(art, addTile);
+    });
+    var tag = document.querySelector(".sect .tag");
+    if(tag){
+      var total = grid.querySelectorAll(".card").length;
+      tag.textContent = String(total).padStart(2,"0") + " active";
+    }
+  }
+
+  function openModal(id){
+    editingId = id || null;
+    var c = id ? cards.filter(function(x){ return x.id === id; })[0] : null;
+    modalTitle.textContent = c ? "Edit tool" : "Add a tool";
+    f.name.value = c ? c.name : "";
+    f.url.value = c ? c.url : "";
+    f.category.value = c ? c.category : "Other";
+    f.desc.value = c ? (c.description||"") : "";
+    f.meta1.value = c ? (c.meta1||"") : "";
+    f.meta2.value = c ? (c.meta2||"") : "";
+    modalBack.classList.add("open");
+    f.name.focus();
+  }
+  function closeModal(){ modalBack.classList.remove("open"); }
+
+  addTile.addEventListener("click", function(){ openModal(null); });
+  document.getElementById("modalCancel").addEventListener("click", closeModal);
+  modalBack.addEventListener("click", function(e){ if(e.target === modalBack) closeModal(); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeModal(); });
+
+  document.getElementById("modalSave").addEventListener("click", function(){
+    var name = f.name.value.trim(), url = f.url.value.trim();
+    if(!name || !url){ alert("Name and URL are both required."); return; }
+    var data = {
+      name: name, url: url, category: f.category.value,
+      description: f.desc.value.trim(),
+      meta1: f.meta1.value.trim(), meta2: f.meta2.value.trim()
+    };
+    if(editingId){
+      for(var i=0;i<cards.length;i++){ if(cards[i].id===editingId){ data.id=editingId; cards[i]=data; break; } }
+    }else{
+      data.id = "c" + Date.now();
+      cards.push(data);
+    }
+    save(cards); renderCustom(); closeModal();
+  });
+
+  /* ---- Export / import the full setup (link overrides + custom tools) ---- */
+  document.getElementById("exportBtn").addEventListener("click", function(){
+    var overrides = {};
+    try{ overrides = JSON.parse(localStorage.getItem(LINKS_KEY)||"{}"); }catch(e){}
+    var payload = { linkOverrides: overrides, customCards: cards };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "energy-hub-config.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  var importFile = document.getElementById("importFile");
+  document.getElementById("importBtn").addEventListener("click", function(){ importFile.click(); });
+  importFile.addEventListener("change", function(){
+    var file = this.files[0];
+    if(!file) return;
+    var r = new FileReader();
+    r.onload = function(){
+      try{
+        var p = JSON.parse(r.result);
+        if(p.linkOverrides) localStorage.setItem(LINKS_KEY, JSON.stringify(p.linkOverrides));
+        if(Object.prototype.toString.call(p.customCards) === "[object Array]"){ cards = p.customCards; save(cards); }
+        location.reload();
+      }catch(e){ alert("Couldn't read that file \u2014 is it an energy-hub-config.json export?"); }
+    };
+    r.readAsText(file);
+    this.value = "";
+  });
+
+  renderCustom();
 })();
 </script>
 
