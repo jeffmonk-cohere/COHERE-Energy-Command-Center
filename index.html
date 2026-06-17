@@ -3,283 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cohere North · Energy GTM Command Center</title>
+<title>Cohere North · Energy Command Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0c1117;
-    --bg-raise:#121a23;
-    --bg-card:#151f2a;
-    --line:#22303d;
-    --line-bright:#314455;
-    --ink:#e8eef4;
-    --ink-dim:#8da2b5;
-    --ink-faint:#5c7186;
-    --amber:#f0a437;        /* flare / signal */
-    --amber-soft:rgba(240,164,55,.12);
-    --steel:#5aa7d6;        /* grid / pipeline blue */
-    --steel-soft:rgba(90,167,214,.10);
-    --ok:#4cc38a;
-    --radius:14px;
+    --bg:#0a0a0a;
+    --bg-raise:#141414;
+    --bg-card:#171717;
+    --line:#2a2a2a;
+    --line-bright:#3a3a3a;
+    --ink:#f4f1ec;
+    --ink-dim:#a89f93;
+    --ink-faint:#6f675c;
+    --copper:#c87b3f;
+    --copper-bright:#e09456;
+    --copper-soft:rgba(200,123,63,.12);
+    --radius:12px;
     --font-display:'Space Grotesk',sans-serif;
     --font-body:'Inter',system-ui,sans-serif;
-    --font-mono:'IBM Plex Mono',monospace;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
   body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:var(--font-body);
-    font-size:15px;
-    line-height:1.55;
-    min-height:100vh;
-    background-image:
-      linear-gradient(rgba(90,167,214,.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(90,167,214,.035) 1px, transparent 1px);
-    background-size:56px 56px;
+    background:var(--bg);color:var(--ink);
+    font-family:var(--font-body);font-size:15px;line-height:1.55;min-height:100vh;
   }
-  a{color:inherit}
+  a{color:inherit;text-decoration:none}
   button{font-family:inherit}
-  :focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:4px}
+  :focus-visible{outline:2px solid var(--copper);outline-offset:2px;border-radius:4px}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 28px}
 
-  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
-
-  /* ============ HEADER ============ */
-  header{
-    border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(18,26,35,.9), rgba(12,17,23,.6));
-    backdrop-filter:blur(6px);
-    position:sticky;top:0;z-index:50;
-  }
-  .topbar{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:14px 0;gap:16px;
-  }
-  .brand{display:flex;align-items:center;gap:12px}
+  /* HEADER */
+  header{border-bottom:1px solid var(--line);background:var(--bg)}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0;gap:16px}
+  .brand{display:flex;align-items:center;gap:13px}
   .brand-mark{
-    width:34px;height:34px;border-radius:9px;
-    background:linear-gradient(135deg,var(--amber),#d97f1a);
+    width:36px;height:36px;border-radius:9px;background:var(--copper);
     display:grid;place-items:center;flex-shrink:0;
-    font-family:var(--font-display);font-weight:700;color:#16100a;font-size:15px;
+    font-family:var(--font-display);font-weight:700;color:#0a0a0a;font-size:17px;
   }
-  .brand-name{font-family:var(--font-display);font-weight:600;font-size:15px;letter-spacing:.01em}
+  .brand-name{font-family:var(--font-display);font-weight:600;font-size:16px}
   .brand-name span{color:var(--ink-faint);font-weight:400}
-  .top-actions{display:flex;align-items:center;gap:10px}
+  .top-actions{display:flex;align-items:center;gap:9px}
   .btn-ghost{
     background:transparent;border:1px solid var(--line-bright);color:var(--ink-dim);
-    font-family:var(--font-mono);font-size:11.5px;letter-spacing:.04em;
-    padding:7px 14px;border-radius:8px;cursor:pointer;transition:all .15s;
+    font-size:13px;padding:8px 15px;border-radius:8px;cursor:pointer;transition:all .15s;
   }
-  .btn-ghost:hover{color:var(--ink);border-color:var(--steel)}
-  .btn-ghost.active{color:var(--amber);border-color:var(--amber)}
+  .btn-ghost:hover{color:var(--ink);border-color:var(--copper)}
 
-  /* ============ HERO ============ */
-  .hero{padding:64px 0 30px}
+  /* HERO */
+  .hero{padding:54px 0 40px;border-bottom:1px solid var(--line);margin-bottom:44px}
   .eyebrow{
-    font-family:var(--font-mono);font-size:11.5px;letter-spacing:.18em;
-    color:var(--amber);text-transform:uppercase;margin-bottom:18px;
-    display:flex;align-items:center;gap:10px;
+    font-size:12.5px;letter-spacing:.14em;color:var(--copper);
+    text-transform:uppercase;margin-bottom:16px;font-weight:600;
   }
-  .eyebrow::before{content:"";display:block;width:34px;height:1px;background:var(--amber)}
   h1{
     font-family:var(--font-display);font-weight:700;
-    font-size:clamp(34px,5vw,56px);line-height:1.05;letter-spacing:-.015em;
-    max-width:760px;
+    font-size:clamp(32px,4.5vw,46px);line-height:1.08;letter-spacing:-.015em;
   }
-  h1 em{font-style:normal;color:var(--steel)}
-  .hero p{
-    margin-top:18px;max-width:640px;color:var(--ink-dim);font-size:16px;
-  }
+  .hero p{margin-top:16px;max-width:600px;color:var(--ink-dim);font-size:16px}
 
-  /* ============ FLOWLINE (signature) ============ */
-  .flowline{position:relative;height:54px;margin:34px 0 6px;overflow:hidden}
-  .flowline svg{position:absolute;inset:0;width:100%;height:100%}
-  .fl-track{stroke:var(--line-bright);stroke-width:1.5;fill:none}
-  .fl-pulse{
-    stroke:var(--amber);stroke-width:2;fill:none;
-    stroke-dasharray:46 1200;
-    animation:flow 7s linear infinite;
+  /* SEARCH */
+  .searchbar{
+    display:flex;align-items:center;gap:11px;margin-bottom:32px;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:10px;
+    padding:0 14px;transition:border-color .15s;
   }
-  .fl-node{fill:var(--bg);stroke:var(--line-bright);stroke-width:1.5}
-  .fl-node.lit{stroke:var(--amber)}
-  @keyframes flow{from{stroke-dashoffset:1246}to{stroke-dashoffset:0}}
-  @media (prefers-reduced-motion: reduce){
-    .fl-pulse{animation:none;stroke-dasharray:none;opacity:.45}
+  .searchbar:focus-within{border-color:var(--copper)}
+  .searchbar svg{width:18px;height:18px;color:var(--ink-faint);flex-shrink:0}
+  .searchbar input{
+    flex:1;background:transparent;border:none;color:var(--ink);
+    font-family:var(--font-body);font-size:15px;padding:13px 0;outline:none;
   }
+  .searchbar input::placeholder{color:var(--ink-faint)}
+  #searchClear{
+    background:transparent;border:none;color:var(--ink-faint);cursor:pointer;
+    font-size:14px;padding:4px 6px;border-radius:6px;visibility:hidden;transition:color .15s;
+  }
+  #searchClear:hover{color:var(--ink)}
+  .searchbar.has-text #searchClear{visibility:visible}
+  .card.hidden,.add-tile.hidden{display:none}
+  .no-results{
+    grid-column:1/-1;text-align:center;padding:38px 20px;color:var(--ink-faint);
+    font-size:14px;display:none;
+  }
+  .no-results.show{display:block}
 
-  /* ============ STATS STRIP ============ */
-  .stats{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    border:1px solid var(--line);border-radius:var(--radius);
-    background:var(--bg-raise);overflow:hidden;margin-bottom:54px;
-  }
-  .stat{
-    padding:18px 22px;border-right:1px solid var(--line);
-  }
-  .stat:last-child{border-right:none}
-  .stat b{
-    font-family:var(--font-display);font-size:26px;font-weight:600;
-    display:block;letter-spacing:-.01em;
-  }
-  .stat span{
-    font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;
-    color:var(--ink-faint);text-transform:uppercase;
-  }
+  /* SECTION */
+  .sect{display:flex;align-items:baseline;gap:12px;margin:0 0 20px}
+  .sect h2{font-family:var(--font-display);font-size:15px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.06em;color:var(--ink-dim)}
+  .sect .rule{flex:1;height:1px;background:var(--line)}
 
-  /* ============ SECTION LABELS ============ */
-  .sect{
-    display:flex;align-items:baseline;justify-content:space-between;
-    margin:0 0 18px;gap:12px;
-  }
-  .sect h2{
-    font-family:var(--font-display);font-size:20px;font-weight:600;letter-spacing:-.01em;
-  }
-  .sect .tag{
-    font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;
-    color:var(--ink-faint);text-transform:uppercase;
-  }
-
-  /* ============ TOOL GRID ============ */
-  .grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:64px;
-  }
+  /* TOOL GRID */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:56px}
   .card{
     background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:24px 24px 20px;display:flex;flex-direction:column;gap:0;
-    position:relative;transition:border-color .18s, transform .18s;
+    padding:22px;display:flex;flex-direction:column;transition:border-color .16s,transform .16s;
   }
-  .card:hover{border-color:var(--line-bright);transform:translateY(-2px)}
-  .card::before{
-    content:"";position:absolute;top:0;left:24px;right:24px;height:2px;
-    background:var(--accent,var(--steel));border-radius:0 0 2px 2px;opacity:.85;
+  .card:hover{border-color:var(--copper);transform:translateY(-2px)}
+  .card-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .card-icon{
+    width:38px;height:38px;border-radius:9px;background:var(--copper-soft);
+    display:grid;place-items:center;flex-shrink:0;color:var(--copper-bright);
   }
-  .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
-  .card h3{
-    font-family:var(--font-display);font-size:18px;font-weight:600;letter-spacing:-.005em;
-    line-height:1.25;
-  }
-  .chip{
-    font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
-    padding:4px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;
-    background:var(--steel-soft);color:var(--steel);
-  }
-  .chip.amber{background:var(--amber-soft);color:var(--amber)}
-  .card p{color:var(--ink-dim);font-size:13.5px;flex:1;margin-bottom:16px}
-  .card-meta{
-    display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px;
-    font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);letter-spacing:.03em;
-  }
-  .card-meta b{color:var(--ink);font-weight:500}
+  .card-icon svg{width:19px;height:19px}
+  .card h3{font-family:var(--font-display);font-size:17px;font-weight:600;line-height:1.2}
+  .card-cat{font-size:11.5px;color:var(--ink-faint);letter-spacing:.04em;text-transform:uppercase}
+  .card p{color:var(--ink-dim);font-size:13.5px;flex:1;margin-bottom:18px}
   .card-foot{display:flex;gap:8px;align-items:center}
   .open-btn{
-    flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    background:transparent;border:1px solid var(--line-bright);
-    color:var(--ink);font-family:var(--font-display);font-weight:500;font-size:13.5px;
-    padding:10px 14px;border-radius:9px;text-decoration:none;cursor:pointer;
-    transition:all .15s;
+    flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+    background:var(--copper);border:1px solid var(--copper);color:#0a0a0a;
+    font-family:var(--font-display);font-weight:600;font-size:13.5px;
+    padding:10px 14px;border-radius:8px;cursor:pointer;transition:filter .15s;
   }
-  .open-btn:hover{border-color:var(--amber);color:var(--amber)}
+  .open-btn:hover{filter:brightness(1.12)}
   .open-btn svg{width:13px;height:13px}
-  .open-btn.unset{color:var(--ink-faint);border-style:dashed;cursor:default}
-  .open-btn.unset:hover{border-color:var(--line-bright);color:var(--ink-faint)}
-  .edit-link-btn{
-    display:inline-flex;background:transparent;border:1px solid var(--line);
-    color:var(--ink-faint);border-radius:9px;padding:10px 12px;cursor:pointer;
-    font-family:var(--font-mono);font-size:11px;transition:all .15s;
+  .open-btn.unset{
+    background:transparent;color:var(--ink-faint);border-style:dashed;
+    border-color:var(--line-bright);cursor:pointer;
   }
-  .edit-link-btn:hover{color:var(--amber);border-color:var(--amber)}
+  .open-btn.unset:hover{filter:none;border-color:var(--copper);color:var(--copper)}
+  .mini-btn{
+    background:transparent;border:1px solid var(--line-bright);color:var(--ink-faint);
+    border-radius:8px;padding:10px 11px;cursor:pointer;font-size:12px;transition:all .15s;
+  }
+  .mini-btn:hover{color:var(--copper);border-color:var(--copper)}
 
-  /* ============ ADD-TOOL TILE ============ */
+  /* ADD TILE */
   .add-tile{
-    border:1.5px dashed var(--line-bright);border-radius:var(--radius);
-    background:transparent;color:var(--ink-faint);cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-    min-height:230px;font-family:var(--font-display);font-size:14px;font-weight:500;
-    transition:all .18s;
+    border:1.5px dashed var(--line-bright);border-radius:var(--radius);background:transparent;
+    color:var(--ink-faint);cursor:pointer;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:9px;min-height:200px;
+    font-family:var(--font-display);font-size:14px;font-weight:500;transition:all .16s;
   }
-  .add-tile:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+  .add-tile:hover{border-color:var(--copper);color:var(--copper);transform:translateY(-2px)}
   .add-tile .plus{
-    width:40px;height:40px;border-radius:50%;border:1.5px solid currentColor;
-    display:grid;place-items:center;font-size:22px;font-weight:400;line-height:1;
+    width:38px;height:38px;border-radius:50%;border:1.5px solid currentColor;
+    display:grid;place-items:center;font-size:22px;line-height:1;
   }
 
-  /* ============ MODAL ============ */
-  .modal-back{
-    position:fixed;inset:0;background:rgba(5,8,12,.72);backdrop-filter:blur(3px);
-    display:none;place-items:center;z-index:100;padding:20px;
+  /* HELP STRIP */
+  .help{
+    border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-raise);
+    padding:22px 24px;margin-bottom:48px;
   }
+  .help h3{font-family:var(--font-display);font-size:14px;font-weight:600;
+    color:var(--copper);margin-bottom:12px;letter-spacing:.03em}
+  .help-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .help-row div p{font-size:13px;color:var(--ink-dim)}
+  .help-row div b{display:block;color:var(--ink);font-family:var(--font-display);
+    font-size:13.5px;margin-bottom:3px;font-weight:600}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:24px 0 40px}
+  footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer .sig{font-size:13px;color:var(--ink-faint)}
+  footer .sig b{color:var(--ink-dim);font-weight:600}
+
+  /* MODAL */
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(3px);
+    display:none;place-items:center;z-index:100;padding:20px}
   .modal-back.open{display:grid}
-  .modal{
-    background:var(--bg-raise);border:1px solid var(--line-bright);border-radius:16px;
-    width:min(540px,100%);padding:28px;max-height:90vh;overflow-y:auto;
-  }
-  .modal h3{font-family:var(--font-display);font-size:20px;font-weight:600;margin-bottom:20px}
+  .modal{background:var(--bg-raise);border:1px solid var(--line-bright);border-radius:14px;
+    width:min(520px,100%);padding:28px;max-height:90vh;overflow-y:auto}
+  .modal h3{font-family:var(--font-display);font-size:19px;font-weight:600;margin-bottom:20px}
   .field{margin-bottom:14px}
-  .field label{
-    display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;
-  }
-  .field input,.field select,.field textarea{
-    width:100%;background:var(--bg);border:1px solid var(--line-bright);color:var(--ink);
-    border-radius:8px;padding:10px 12px;font-family:var(--font-body);font-size:13.5px;
-  }
-  .field input:focus,.field select:focus,.field textarea:focus{
-    outline:none;border-color:var(--amber);
-  }
+  .field label{display:block;font-size:12px;letter-spacing:.03em;color:var(--ink-dim);
+    margin-bottom:6px;font-weight:500}
+  .field input,.field select,.field textarea{width:100%;background:var(--bg);
+    border:1px solid var(--line-bright);color:var(--ink);border-radius:8px;
+    padding:10px 12px;font-family:var(--font-body);font-size:14px}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--copper)}
   .field textarea{resize:vertical}
   .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
-  .btn-primary{
-    background:var(--amber);color:#16100a;border:none;border-radius:8px;
-    padding:10px 20px;font-family:var(--font-display);font-weight:600;font-size:13.5px;
-    cursor:pointer;transition:filter .15s;
-  }
-  .btn-primary:hover{filter:brightness(1.1)}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+  .btn-primary{background:var(--copper);color:#0a0a0a;border:none;border-radius:8px;
+    padding:10px 22px;font-family:var(--font-display);font-weight:600;font-size:14px;
+    cursor:pointer;transition:filter .15s}
+  .btn-primary:hover{filter:brightness(1.12)}
 
-  /* ============ RESOURCES ROW ============ */
-  .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:64px}
-  .res{
-    border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;
-    background:var(--bg-raise);
-  }
-  .res h4{
-    font-family:var(--font-display);font-size:14px;font-weight:600;margin-bottom:6px;
-    display:flex;align-items:center;gap:8px;
-  }
-  .res h4::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--steel)}
-  .res p{font-size:12.5px;color:var(--ink-faint)}
-
-  /* ============ FOOTER ============ */
-  footer{
-    border-top:1px solid var(--line);padding:26px 0 40px;
-    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
-  }
-  footer .sig{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.04em}
-  footer .sig b{color:var(--ink-dim);font-weight:500}
-
-  /* ============ EDIT BANNER ============ */
-  .edit-banner{
-    display:none;background:var(--amber-soft);border:1px solid rgba(240,164,55,.35);
-    border-radius:10px;padding:12px 16px;margin-bottom:22px;
-    font-size:13px;color:var(--amber);
-    font-family:var(--font-mono);letter-spacing:.02em;
-  }
-  body.editing .edit-banner{display:block}
-
-  @media(max-width:900px){
-    .grid,.res-grid{grid-template-columns:repeat(2,1fr)}
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .stat:nth-child(2){border-right:none}
-    .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line)}
-  }
-  @media(max-width:580px){
-    .grid,.res-grid{grid-template-columns:1fr}
-    .wrap{padding:0 18px}
-    .hero{padding:44px 0 24px}
-  }
+  @media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}.help-row{grid-template-columns:1fr;gap:14px}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.wrap{padding:0 18px}.hero{padding:38px 0 30px}}
 </style>
 </head>
 <body>
@@ -288,11 +195,11 @@
   <div class="wrap topbar">
     <div class="brand">
       <div class="brand-mark">N</div>
-      <div class="brand-name">Cohere North <span>/ Energy Vertical</span></div>
+      <div class="brand-name">Cohere North <span>/ Energy</span></div>
     </div>
     <div class="top-actions">
-      <button class="btn-ghost" id="exportBtn" title="Download your links and custom tools as a JSON file">Export setup</button>
-      <button class="btn-ghost" id="importBtn" title="Load a previously exported setup file">Import</button>
+      <button class="btn-ghost" id="exportBtn" title="Download your links and custom tools">Export</button>
+      <button class="btn-ghost" id="importBtn" title="Load a saved setup file">Import</button>
       <input type="file" id="importFile" accept="application/json" hidden>
     </div>
   </div>
@@ -301,290 +208,156 @@
 <main class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">Americas · Oil &amp; Gas · Midstream · Utilities · Nuclear · OFS</div>
-    <h1>Energy GTM <em>Command Center</em></h1>
-    <p>One front door to every tool in the Cohere North energy sales kit — use case discovery, value modeling, account intelligence, and competitive positioning.</p>
+    <div class="eyebrow">Americas Energy Territory</div>
+    <h1>Energy Command Center</h1>
+    <p>One place to reach every tool in the Cohere North energy kit — use case discovery, value modeling, account intelligence, and competitive positioning.</p>
   </section>
 
-  <div class="flowline" aria-hidden="true">
-    <svg viewBox="0 0 1180 54" preserveAspectRatio="none">
-      <path class="fl-track" d="M0,27 H180 L210,12 H380 L410,27 H580 L610,42 H780 L810,27 H980 L1010,12 H1180"/>
-      <path class="fl-pulse" d="M0,27 H180 L210,12 H380 L410,27 H580 L610,42 H780 L810,27 H980 L1010,12 H1180"/>
-      <circle class="fl-node lit" cx="195" cy="19.5" r="4"/>
-      <circle class="fl-node" cx="395" cy="19.5" r="4"/>
-      <circle class="fl-node lit" cx="595" cy="34.5" r="4"/>
-      <circle class="fl-node" cx="795" cy="34.5" r="4"/>
-      <circle class="fl-node lit" cx="995" cy="19.5" r="4"/>
-    </svg>
+  <div class="searchbar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="searchInput" placeholder="Search tools by name, category, or description…" autocomplete="off">
+    <button id="searchClear" type="button" aria-label="Clear search" title="Clear">✕</button>
   </div>
-
-  <section class="stats" aria-label="Portfolio at a glance">
-    <div class="stat"><b>89</b><span>Americas accounts</span></div>
-    <div class="stat"><b>76</b><span>Use cases · 18 verticals</span></div>
-    <div class="stat"><b>267</b><span>Verified VIP contacts</span></div>
-    <div class="stat"><b>13</b><span>Objections handled</span></div>
-  </section>
 
   <div class="sect">
     <h2>Tools &amp; Consoles</h2>
-    <span class="tag">07 active</span>
+    <span class="rule"></span>
   </div>
 
   <section class="grid" id="toolGrid">
 
-    <article class="card" style="--accent:var(--amber)" data-key="useCaseConsole">
+    <article class="card" data-key="useCaseConsole">
       <div class="card-head">
-        <h3>Use Case Console</h3>
-        <span class="chip amber">Discovery</span>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+        <div><h3>Use Case Console</h3><div class="card-cat">Discovery</div></div>
       </div>
-      <p>The agentic energy use case library — browse, filter, and prioritize plays across upstream, midstream, utilities, nuclear, and OFS.</p>
-      <div class="card-meta"><span><b>76</b> use cases</span><span><b>18</b> verticals</span></div>
+      <p>Browse, filter, and prioritize agentic AI plays across upstream, midstream, utilities, nuclear, and oilfield services.</p>
       <div class="card-foot">
-        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open console
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg>
-        </a>
-        <button class="edit-link-btn" data-edit title="Set URL">✎</button>
+        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <button class="mini-btn" data-edit title="Set link">✎</button>
       </div>
     </article>
 
-    <article class="card" style="--accent:var(--amber)" data-key="questionnaire">
+    <article class="card" data-key="questionnaire">
       <div class="card-head">
-        <h3>Customer Assumption Questionnaire</h3>
-        <span class="chip amber">Discovery</span>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <div><h3>Use Case Questionnaire</h3><div class="card-cat">Discovery</div></div>
       </div>
-      <p>Capture customer-specific operating assumptions per use case, then export straight into the Value Appraisal Console.</p>
-      <div class="card-meta"><span><b>26</b> use cases</span><span>JSON export</span></div>
+      <p>Capture customer operating assumptions per use case, then export them straight into the Value Appraisal Console.</p>
       <div class="card-foot">
-        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open questionnaire
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg>
-        </a>
-        <button class="edit-link-btn" data-edit title="Set URL">✎</button>
+        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <button class="mini-btn" data-edit title="Set link">✎</button>
       </div>
     </article>
 
-    <article class="card" style="--accent:var(--ok)" data-key="valueAppraisal">
+    <article class="card" data-key="valueAppraisal">
       <div class="card-head">
-        <h3>Value Appraisal Console</h3>
-        <span class="chip" style="background:rgba(76,195,138,.1);color:var(--ok)">Value</span>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <div><h3>Value Appraisal Console</h3><div class="card-cat">Value</div></div>
       </div>
-      <p>Quantified value modeling per use case — import questionnaire assumptions, tune capture rates, and build the dollarized business case.</p>
-      <div class="card-meta"><span><b>26</b> use cases</span><span>Import / export</span></div>
+      <p>Quantified value modeling — import assumptions, tune capture rates, and build the dollarized business case per use case.</p>
       <div class="card-foot">
-        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open console
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg>
-        </a>
-        <button class="edit-link-btn" data-edit title="Set URL">✎</button>
+        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <button class="mini-btn" data-edit title="Set link">✎</button>
       </div>
     </article>
 
     <article class="card" data-key="energyDirectory">
       <div class="card-head">
-        <h3>Energy VIP Directory</h3>
-        <span class="chip">Accounts</span>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div><h3>Energy VIP Directory</h3><div class="card-cat">Accounts</div></div>
       </div>
-      <p>ZoomInfo-enriched executive directory — top-3 decision makers per account with verified emails across the NA energy landscape.</p>
-      <div class="card-meta"><span><b>89</b> accounts</span><span><b>~267</b> contacts</span></div>
+      <p>ZoomInfo-enriched executive directory — top decision makers per account with verified emails across the energy landscape.</p>
       <div class="card-foot">
-        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open directory
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg>
-        </a>
-        <button class="edit-link-btn" data-edit title="Set URL">✎</button>
+        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <button class="mini-btn" data-edit title="Set link">✎</button>
       </div>
     </article>
 
     <article class="card" data-key="masterAccounts">
       <div class="card-head">
-        <h3>Master Account List</h3>
-        <span class="chip">Accounts</span>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg></div>
+        <div><h3>Master Account List</h3><div class="card-cat">Accounts</div></div>
       </div>
-      <p>The Americas GTM command center — full account roster with segmentation, M&amp;A reconciliation, pipeline view, and campaign messaging.</p>
-      <div class="card-meta"><span><b>89</b> accounts</span><span>M&amp;A-reconciled</span></div>
+      <p>The Americas account roster — segmentation, M&amp;A reconciliation, pipeline view, and campaign messaging in one place.</p>
       <div class="card-foot">
-        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open account list
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg>
-        </a>
-        <button class="edit-link-btn" data-edit title="Set URL">✎</button>
+        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <button class="mini-btn" data-edit title="Set link">✎</button>
       </div>
     </article>
 
-    <article class="card" style="--accent:#d96a6a" data-key="objectionHandling">
+    <article class="card" data-key="objectionHandling">
       <div class="card-head">
-        <h3>Objection Handling</h3>
-        <span class="chip" style="background:rgba(217,106,106,.1);color:#d96a6a">Competitive</span>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><h3>Objection Handling</h3><div class="card-cat">Competitive</div></div>
       </div>
-      <p>The exception handler — competitive objections with field-tested responses, editable in place so the library sharpens with every deal.</p>
-      <div class="card-meta"><span><b>13</b> exceptions</span><span>Add / edit / delete</span></div>
+      <p>Competitive objections with field-tested responses, editable in place so the library sharpens with every deal.</p>
       <div class="card-foot">
-        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open handler
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg>
-        </a>
-        <button class="edit-link-btn" data-edit title="Set URL">✎</button>
+        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <button class="mini-btn" data-edit title="Set link">✎</button>
       </div>
     </article>
 
-    <article class="card" style="--accent:#b48ce0" data-key="presentationDeck">
+    <article class="card" data-key="presentationDeck">
       <div class="card-head">
-        <h3>Presentation Deck</h3>
-        <span class="chip" style="background:rgba(180,140,224,.1);color:#b48ce0">Pitch</span>
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div><h3>Presentation Deck</h3><div class="card-cat">Pitch</div></div>
       </div>
-      <p>The Agentic Energy Enterprise — the master Google Slides deck covering the full use case story across every energy vertical.</p>
-      <div class="card-meta"><span><b>76</b> use cases</span><span>Google Slides</span></div>
+      <p>The Agentic Energy Enterprise — the master Google Slides deck covering the full use case story across every vertical.</p>
       <div class="card-foot">
-        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open deck
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg>
-        </a>
-        <button class="edit-link-btn" data-edit title="Set URL">✎</button>
+        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <button class="mini-btn" data-edit title="Set link">✎</button>
       </div>
     </article>
 
-    <button class="add-tile" id="addTile" type="button" aria-label="Add a new tool to the Command Center">
+    <button class="add-tile" id="addTile" type="button" aria-label="Add a new tool">
       <span class="plus">+</span>
       Add a tool
     </button>
 
+    <div class="no-results" id="noResults">No tools match that search.</div>
+
   </section>
 
-  <div class="sect">
-    <h2>Field Notes</h2>
-    <span class="tag">How the kit fits together</span>
+  <div class="help">
+    <h3>How the kit fits together</h3>
+    <div class="help-row">
+      <div><b>Discovery → Value</b><p>Run the Questionnaire with the customer, export the assumptions, then import them into the Value Appraisal Console.</p></div>
+      <div><b>Account → Contact</b><p>Start in the Master Account List for segmentation and pipeline, then jump to the VIP Directory for verified contacts.</p></div>
+      <div><b>Objections live</b><p>Keep the Objection Handler open during calls and add new responses the moment you hear something fresh.</p></div>
+    </div>
   </div>
-
-  <section class="res-grid">
-    <div class="res">
-      <h4>Discovery → Value</h4>
-      <p>Run the Questionnaire with the customer, export assumptions, import into the Value Appraisal Console. Percent fields scale automatically on import.</p>
-    </div>
-    <div class="res">
-      <h4>Account → Contact</h4>
-      <p>Start in the Master Account List for segmentation and pipeline stage, then jump to the VIP Directory for verified decision-maker contacts.</p>
-    </div>
-    <div class="res">
-      <h4>Objections in the room</h4>
-      <p>Keep the Objection Handler open during live calls. Add new exceptions the moment you hear them — the library is the moat.</p>
-    </div>
-  </section>
 
 </main>
 
 <footer>
-  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;width:100%">
+  <div class="wrap row">
     <div class="sig"><b>Jeff Monk</b> · Enterprise Field Sales, Energy · Cohere</div>
-    <div class="sig">jeff.monk@cohere.com · 281-757-3904</div>
+    <div class="sig">jeff.monk@cohere.com</div>
   </div>
 </footer>
-
-<script>
-(function(){
-  // Default link targets — edit here, or use "Edit links" in the UI (saved to localStorage).
-  var DEFAULTS = {
-    useCaseConsole:   "",
-    questionnaire:    "https://jeffmonk-cohere.github.io/Questionnaire/",
-    valueAppraisal:   "https://jeffmonk-cohere.github.io/Value-Appraisal/",
-    energyDirectory:  "",
-    masterAccounts:   "",
-    objectionHandling:"",
-    presentationDeck: "https://docs.google.com/presentation/d/1vIYujcDiQdj4KubvmEvj49Nev2dsGt8yENUfz5VDViY/present"
-  };
-  var STORE_KEY = "energyHubLinks_v2"; // stores only user overrides
-
-  function loadOverrides(){
-    try{ return JSON.parse(localStorage.getItem(STORE_KEY) || "{}"); }
-    catch(e){ return {}; }
-  }
-  function saveOverrides(o){
-    try{ localStorage.setItem(STORE_KEY, JSON.stringify(o)); }catch(e){}
-  }
-
-  var overrides = loadOverrides();
-  function linkFor(key){
-    return overrides.hasOwnProperty(key) ? overrides[key] : (DEFAULTS[key] || "");
-  }
-
-  function render(){
-    document.querySelectorAll(".card[data-key]").forEach(function(card){
-      var key = card.getAttribute("data-key");
-      var a = card.querySelector("[data-open]");
-      var url = linkFor(key);
-      if(url){
-        a.href = url;
-        a.classList.remove("unset");
-        a.removeAttribute("aria-disabled");
-      }else{
-        a.href = "#";
-        a.classList.add("unset");
-        a.setAttribute("aria-disabled","true");
-      }
-    });
-  }
-
-  document.querySelectorAll(".card[data-key]").forEach(function(card){
-    var key = card.getAttribute("data-key");
-    var a = card.querySelector("[data-open]");
-    a.addEventListener("click", function(ev){
-      if(!linkFor(key)){
-        ev.preventDefault();
-        promptForUrl(card, key);
-      }
-    });
-    card.querySelector("[data-edit]").addEventListener("click", function(){
-      promptForUrl(card, key);
-    });
-  });
-
-  function promptForUrl(card, key){
-    var name = card.querySelector("h3").textContent;
-    var input = window.prompt("URL for \u201c" + name + "\u201d:", linkFor(key));
-    if(input === null) return;            // cancelled
-    var val = input.trim();
-    if(val === (DEFAULTS[key] || "")){
-      delete overrides[key];              // back to default — no override needed
-    }else{
-      overrides[key] = val;
-    }
-    saveOverrides(overrides);
-    render();
-  }
-
-  render();
-})();
-</script>
 
 <div class="modal-back" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal">
     <h3 id="modalTitle">Add a tool</h3>
-    <div class="field">
-      <label for="fName">Name</label>
-      <input id="fName" type="text" placeholder="e.g., CenterPoint Pilot Console">
-    </div>
-    <div class="field">
-      <label for="fUrl">URL</label>
-      <input id="fUrl" type="url" placeholder="https://jeffmonk-cohere.github.io/...">
-    </div>
-    <div class="field">
-      <label for="fCategory">Category</label>
+    <div class="field"><label for="fName">Name</label>
+      <input id="fName" type="text" placeholder="e.g., CenterPoint Pilot Console"></div>
+    <div class="field"><label for="fUrl">URL</label>
+      <input id="fUrl" type="url" placeholder="https://jeffmonk-cohere.github.io/..."></div>
+    <div class="field"><label for="fCategory">Category</label>
       <select id="fCategory">
-        <option>Discovery</option>
-        <option>Value</option>
-        <option>Accounts</option>
-        <option>Competitive</option>
-        <option>Pitch</option>
-        <option selected>Other</option>
-      </select>
-    </div>
-    <div class="field">
-      <label for="fDesc">Description</label>
-      <textarea id="fDesc" rows="2" placeholder="One line on what it does"></textarea>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label for="fMeta1">Stat 1</label>
-        <input id="fMeta1" type="text" placeholder="e.g., 26 use cases">
-      </div>
-      <div class="field">
-        <label for="fMeta2">Stat 2</label>
-        <input id="fMeta2" type="text" placeholder="e.g., JSON export">
-      </div>
-    </div>
+        <option>Discovery</option><option>Value</option><option>Accounts</option>
+        <option>Competitive</option><option>Pitch</option><option selected>Other</option>
+      </select></div>
+    <div class="field"><label for="fDesc">Description</label>
+      <textarea id="fDesc" rows="2" placeholder="One line on what it does"></textarea></div>
     <div class="modal-actions">
       <button class="btn-ghost" id="modalCancel" type="button">Cancel</button>
       <button class="btn-primary" id="modalSave" type="button">Save tool</button>
@@ -594,144 +367,162 @@
 
 <script>
 (function(){
-  var CUSTOM_KEY = "energyHubCustomCards_v1";
-  var LINKS_KEY  = "energyHubLinks_v2";
-  var CATS = {
-    "Discovery":  {color:"#f0a437", bg:"rgba(240,164,55,.12)"},
-    "Value":      {color:"#4cc38a", bg:"rgba(76,195,138,.10)"},
-    "Accounts":   {color:"#5aa7d6", bg:"rgba(90,167,214,.10)"},
-    "Competitive":{color:"#d96a6a", bg:"rgba(217,106,106,.10)"},
-    "Pitch":      {color:"#b48ce0", bg:"rgba(180,140,224,.10)"},
-    "Other":      {color:"#8da2b5", bg:"rgba(141,162,181,.10)"}
+  /* ---------- Built-in tool links ---------- */
+  var DEFAULTS = {
+    useCaseConsole:   "",
+    questionnaire:    "https://jeffmonk-cohere.github.io/Questionnaire/",
+    valueAppraisal:   "https://jeffmonk-cohere.github.io/Value-Appraisal/",
+    energyDirectory:  "",
+    masterAccounts:   "",
+    objectionHandling:"",
+    presentationDeck: "https://docs.google.com/presentation/d/1vIYujcDiQdj4KubvmEvj49Nev2dsGt8yENUfz5VDViY/present"
   };
-  function load(){ try{ return JSON.parse(localStorage.getItem(CUSTOM_KEY)||"[]"); }catch(e){ return []; } }
-  function save(list){ try{ localStorage.setItem(CUSTOM_KEY, JSON.stringify(list)); }catch(e){} }
-  var cards = load();
+  var LINKS_KEY  = "energyHubLinks_v2";
+  var CUSTOM_KEY = "energyHubCustomCards_v1";
+
+  function loadOverrides(){ try{ return JSON.parse(localStorage.getItem(LINKS_KEY)||"{}"); }catch(e){ return {}; } }
+  function saveOverrides(o){ try{ localStorage.setItem(LINKS_KEY, JSON.stringify(o)); }catch(e){} }
+  var overrides = loadOverrides();
+  function linkFor(key){ return overrides.hasOwnProperty(key) ? overrides[key] : (DEFAULTS[key]||""); }
+
+  function renderBuiltins(){
+    document.querySelectorAll(".card[data-key]").forEach(function(card){
+      var key = card.getAttribute("data-key");
+      var a = card.querySelector("[data-open]");
+      var url = linkFor(key);
+      if(url){ a.href=url; a.classList.remove("unset"); a.textContent=""; a.append("Open ");
+        a.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg>');
+      } else { a.href="#"; a.classList.add("unset"); a.textContent="Set link"; }
+    });
+  }
+
+  document.querySelectorAll(".card[data-key]").forEach(function(card){
+    var key = card.getAttribute("data-key");
+    var a = card.querySelector("[data-open]");
+    a.addEventListener("click", function(ev){ if(!linkFor(key)){ ev.preventDefault(); promptForUrl(card,key); } });
+    card.querySelector("[data-edit]").addEventListener("click", function(){ promptForUrl(card,key); });
+  });
+
+  function promptForUrl(card, key){
+    var name = card.querySelector("h3").textContent;
+    var input = window.prompt("URL for \u201c"+name+"\u201d:", linkFor(key));
+    if(input===null) return;
+    var val = input.trim();
+    if(val === (DEFAULTS[key]||"")) delete overrides[key]; else overrides[key]=val;
+    saveOverrides(overrides); renderBuiltins();
+  }
+
+  /* ---------- Custom tools ---------- */
+  function loadCustom(){ try{ return JSON.parse(localStorage.getItem(CUSTOM_KEY)||"[]"); }catch(e){ return []; } }
+  function saveCustom(l){ try{ localStorage.setItem(CUSTOM_KEY, JSON.stringify(l)); }catch(e){} }
+  var cards = loadCustom();
 
   var grid = document.getElementById("toolGrid");
   var addTile = document.getElementById("addTile");
   var modalBack = document.getElementById("modalBack");
   var modalTitle = document.getElementById("modalTitle");
   var editingId = null;
-
-  var f = {
-    name: document.getElementById("fName"),
-    url: document.getElementById("fUrl"),
-    category: document.getElementById("fCategory"),
-    desc: document.getElementById("fDesc"),
-    meta1: document.getElementById("fMeta1"),
-    meta2: document.getElementById("fMeta2")
-  };
-
+  var f = {name:fld("fName"),url:fld("fUrl"),category:fld("fCategory"),desc:fld("fDesc")};
+  function fld(id){ return document.getElementById(id); }
   function esc(s){ var d=document.createElement("div"); d.textContent=s||""; return d.innerHTML; }
+  var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+  var STAR  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>';
 
   function renderCustom(){
     grid.querySelectorAll("[data-custom-id]").forEach(function(el){ el.remove(); });
     cards.forEach(function(c){
-      var cat = CATS[c.category] || CATS.Other;
-      var art = document.createElement("article");
-      art.className = "card";
-      art.style.setProperty("--accent", cat.color);
-      art.setAttribute("data-custom-id", c.id);
-      var meta = "";
-      if(c.meta1) meta += '<span><b>'+esc(c.meta1)+'</b></span>';
-      if(c.meta2) meta += '<span>'+esc(c.meta2)+'</span>';
-      art.innerHTML =
-        '<div class="card-head"><h3>'+esc(c.name)+'</h3>'+
-        '<span class="chip" style="background:'+cat.bg+';color:'+cat.color+'">'+esc(c.category)+'</span></div>'+
+      var art=document.createElement("article");
+      art.className="card"; art.setAttribute("data-custom-id",c.id);
+      art.innerHTML=
+        '<div class="card-head"><div class="card-icon">'+STAR+'</div>'+
+        '<div><h3>'+esc(c.name)+'</h3><div class="card-cat">'+esc(c.category)+'</div></div></div>'+
         '<p>'+esc(c.description)+'</p>'+
-        (meta ? '<div class="card-meta">'+meta+'</div>' : '')+
         '<div class="card-foot">'+
-          '<a class="open-btn" href="'+esc(c.url)+'" target="_blank" rel="noopener">Open '+
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg></a>'+
-          '<button class="edit-link-btn" data-c-edit title="Edit this tool">✎</button>'+
-          '<button class="edit-link-btn" data-c-del title="Remove this tool">✕</button>'+
+          '<a class="open-btn" href="'+esc(c.url)+'" target="_blank" rel="noopener">Open '+ARROW+'</a>'+
+          '<button class="mini-btn" data-c-edit title="Edit">✎</button>'+
+          '<button class="mini-btn" data-c-del title="Remove">✕</button>'+
         '</div>';
-      art.querySelector("[data-c-edit]").addEventListener("click", function(){ openModal(c.id); });
-      art.querySelector("[data-c-del]").addEventListener("click", function(){
-        if(confirm('Remove \u201c'+c.name+'\u201d from the Command Center?')){
-          cards = cards.filter(function(x){ return x.id !== c.id; });
-          save(cards); renderCustom();
-        }
+      art.querySelector("[data-c-edit]").addEventListener("click",function(){ openModal(c.id); });
+      art.querySelector("[data-c-del]").addEventListener("click",function(){
+        if(confirm('Remove \u201c'+c.name+'\u201d?')){ cards=cards.filter(function(x){return x.id!==c.id;}); saveCustom(cards); renderCustom(); }
       });
       grid.insertBefore(art, addTile);
     });
-    var tag = document.querySelector(".sect .tag");
-    if(tag){
-      var total = grid.querySelectorAll(".card").length;
-      tag.textContent = String(total).padStart(2,"0") + " active";
-    }
+    if(typeof applySearch === "function") applySearch();
   }
 
   function openModal(id){
-    editingId = id || null;
-    var c = id ? cards.filter(function(x){ return x.id === id; })[0] : null;
+    editingId=id||null;
+    var c = id ? cards.filter(function(x){return x.id===id;})[0] : null;
     modalTitle.textContent = c ? "Edit tool" : "Add a tool";
-    f.name.value = c ? c.name : "";
-    f.url.value = c ? c.url : "";
-    f.category.value = c ? c.category : "Other";
-    f.desc.value = c ? (c.description||"") : "";
-    f.meta1.value = c ? (c.meta1||"") : "";
-    f.meta2.value = c ? (c.meta2||"") : "";
-    modalBack.classList.add("open");
-    f.name.focus();
+    f.name.value=c?c.name:""; f.url.value=c?c.url:"";
+    f.category.value=c?c.category:"Other"; f.desc.value=c?(c.description||""):"";
+    modalBack.classList.add("open"); f.name.focus();
   }
   function closeModal(){ modalBack.classList.remove("open"); }
+  addTile.addEventListener("click",function(){ openModal(null); });
+  document.getElementById("modalCancel").addEventListener("click",closeModal);
+  modalBack.addEventListener("click",function(e){ if(e.target===modalBack) closeModal(); });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeModal(); });
 
-  addTile.addEventListener("click", function(){ openModal(null); });
-  document.getElementById("modalCancel").addEventListener("click", closeModal);
-  modalBack.addEventListener("click", function(e){ if(e.target === modalBack) closeModal(); });
-  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeModal(); });
-
-  document.getElementById("modalSave").addEventListener("click", function(){
-    var name = f.name.value.trim(), url = f.url.value.trim();
-    if(!name || !url){ alert("Name and URL are both required."); return; }
-    var data = {
-      name: name, url: url, category: f.category.value,
-      description: f.desc.value.trim(),
-      meta1: f.meta1.value.trim(), meta2: f.meta2.value.trim()
-    };
-    if(editingId){
-      for(var i=0;i<cards.length;i++){ if(cards[i].id===editingId){ data.id=editingId; cards[i]=data; break; } }
-    }else{
-      data.id = "c" + Date.now();
-      cards.push(data);
-    }
-    save(cards); renderCustom(); closeModal();
+  document.getElementById("modalSave").addEventListener("click",function(){
+    var name=f.name.value.trim(), url=f.url.value.trim();
+    if(!name||!url){ alert("Name and URL are both required."); return; }
+    var data={name:name,url:url,category:f.category.value,description:f.desc.value.trim()};
+    if(editingId){ for(var i=0;i<cards.length;i++){ if(cards[i].id===editingId){ data.id=editingId; cards[i]=data; break; } } }
+    else { data.id="c"+Date.now(); cards.push(data); }
+    saveCustom(cards); renderCustom(); closeModal();
   });
 
-  /* ---- Export / import the full setup (link overrides + custom tools) ---- */
-  document.getElementById("exportBtn").addEventListener("click", function(){
-    var overrides = {};
-    try{ overrides = JSON.parse(localStorage.getItem(LINKS_KEY)||"{}"); }catch(e){}
-    var payload = { linkOverrides: overrides, customCards: cards };
-    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
-    var a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "energy-hub-config.json";
-    a.click();
-    URL.revokeObjectURL(a.href);
+  /* ---------- Export / import ---------- */
+  document.getElementById("exportBtn").addEventListener("click",function(){
+    var payload={linkOverrides:overrides, customCards:cards};
+    var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+    a.download="energy-hub-config.json"; a.click(); URL.revokeObjectURL(a.href);
   });
-
-  var importFile = document.getElementById("importFile");
-  document.getElementById("importBtn").addEventListener("click", function(){ importFile.click(); });
-  importFile.addEventListener("change", function(){
-    var file = this.files[0];
-    if(!file) return;
-    var r = new FileReader();
-    r.onload = function(){
+  var importFile=document.getElementById("importFile");
+  document.getElementById("importBtn").addEventListener("click",function(){ importFile.click(); });
+  importFile.addEventListener("change",function(){
+    var file=this.files[0]; if(!file) return;
+    var r=new FileReader();
+    r.onload=function(){
       try{
-        var p = JSON.parse(r.result);
+        var p=JSON.parse(r.result);
         if(p.linkOverrides) localStorage.setItem(LINKS_KEY, JSON.stringify(p.linkOverrides));
-        if(Object.prototype.toString.call(p.customCards) === "[object Array]"){ cards = p.customCards; save(cards); }
+        if(Object.prototype.toString.call(p.customCards)==="[object Array]") localStorage.setItem(CUSTOM_KEY, JSON.stringify(p.customCards));
         location.reload();
       }catch(e){ alert("Couldn't read that file \u2014 is it an energy-hub-config.json export?"); }
     };
-    r.readAsText(file);
-    this.value = "";
+    r.readAsText(file); this.value="";
   });
 
+  /* ---------- Keyword search ---------- */
+  var searchInput = document.getElementById("searchInput");
+  var searchClear = document.getElementById("searchClear");
+  var searchBar   = searchInput.parentElement;
+  var noResults   = document.getElementById("noResults");
+
+  function applySearch(){
+    var q = searchInput.value.trim().toLowerCase();
+    searchBar.classList.toggle("has-text", q.length>0);
+    var anyVisible=false;
+    document.querySelectorAll("#toolGrid .card").forEach(function(card){
+      var text = card.textContent.toLowerCase();
+      var match = q==="" || text.indexOf(q)!==-1;
+      card.classList.toggle("hidden", !match);
+      if(match) anyVisible=true;
+    });
+    // Hide the add tile while actively searching to keep results clean
+    addTile.classList.toggle("hidden", q.length>0);
+    noResults.classList.toggle("show", q.length>0 && !anyVisible);
+  }
+  searchInput.addEventListener("input", applySearch);
+  searchClear.addEventListener("click", function(){ searchInput.value=""; applySearch(); searchInput.focus(); });
+
+  renderBuiltins();
   renderCustom();
+  applySearch();
 })();
 </script>
 
