@@ -317,6 +317,32 @@
       </div>
     </article>
 
+    <article class="card" data-key="gtmWorkbook">
+      <div class="card-head">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+        <div><h3>GTM Workbook</h3><div class="card-cat">Playbook</div></div>
+      </div>
+      <p>Jeff's go-to-market workbook — territory plays, regulatory campaigns, and the working reference for running the energy book.</p>
+      <div class="card-foot">
+        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <button class="mini-btn" data-edit title="Set link">✎</button>
+      </div>
+    </article>
+
+    <article class="card" data-key="industryOrgs">
+      <div class="card-head">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><line x1="9" y1="9" x2="9" y2="9.01"/><line x1="9" y1="13" x2="9" y2="13.01"/><line x1="9" y1="17" x2="9" y2="17.01"/></svg></div>
+        <div><h3>Industry Organizations</h3><div class="card-cat">Reference</div></div>
+      </div>
+      <p>Energy industry consortium reference — EPRI, SPE, NEI, ANS, WINS and the other bodies that shape standards and buying.</p>
+      <div class="card-foot">
+        <a class="open-btn" data-open href="#" target="_blank" rel="noopener">Open
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <button class="mini-btn" data-edit title="Set link">✎</button>
+      </div>
+    </article>
+
     <button class="add-tile" id="addTile" type="button" aria-label="Add a new tool">
       <span class="plus">+</span>
       Add a tool
@@ -369,13 +395,15 @@
 (function(){
   /* ---------- Built-in tool links ---------- */
   var DEFAULTS = {
-    useCaseConsole:   "",
+    useCaseConsole:   "https://jeffmonk-cohere.github.io/USE-CASE-REPOSITORY/",
     questionnaire:    "https://jeffmonk-cohere.github.io/Questionnaire/",
     valueAppraisal:   "https://jeffmonk-cohere.github.io/Value-Appraisal/",
-    energyDirectory:  "",
-    masterAccounts:   "",
+    energyDirectory:  "https://jeffmonk-cohere.github.io/ENERGY-DIRECTORY/",
+    masterAccounts:   "https://jeffmonk-cohere.github.io/MASTER-ACCOUNT-LIST/",
     objectionHandling:"",
-    presentationDeck: "https://docs.google.com/presentation/d/1vIYujcDiQdj4KubvmEvj49Nev2dsGt8yENUfz5VDViY/present"
+    presentationDeck: "https://docs.google.com/presentation/d/1vIYujcDiQdj4KubvmEvj49Nev2dsGt8yENUfz5VDViY/present",
+    gtmWorkbook:      "https://jeffmonk-cohere.github.io/Jeff-s-GTM-Workbook/",
+    industryOrgs:     "https://jeffmonk-cohere.github.io/INDUSTRY-ORGs/"
   };
   var LINKS_KEY  = "energyHubLinks_v2";
   var CUSTOM_KEY = "energyHubCustomCards_v1";
