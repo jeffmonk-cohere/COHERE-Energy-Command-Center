@@ -421,7 +421,7 @@
 (function(){
   /* ---------- Built-in tool links ---------- */
   var DEFAULTS = {
-    useCaseConsole:   "https://jeffmonk-cohere.github.io/USE-CASE-REPOSITORY/",
+    useCaseConsole:   "https://jeffmonk-cohere.github.io/Energy-use-Case-Console/",
     questionnaire:    "https://jeffmonk-cohere.github.io/Questionnaire/",
     valueAppraisal:   "https://jeffmonk-cohere.github.io/Value-Appraisal/",
     energyDirectory:  "https://jeffmonk-cohere.github.io/ENERGY-DIRECTORY/",
@@ -439,6 +439,17 @@
   function loadOverrides(){ try{ return JSON.parse(localStorage.getItem(LINKS_KEY)||"{}"); }catch(e){ return {}; } }
   function saveOverrides(o){ try{ localStorage.setItem(LINKS_KEY, JSON.stringify(o)); }catch(e){} }
   var overrides = loadOverrides();
+
+  /* Retire links that have been replaced in DEFAULTS, so stale browser
+     overrides from the old ✎ edits don't shadow the new baked-in URL. */
+  var RETIRED = ["https://jeffmonk-cohere.github.io/USE-CASE-REPOSITORY/"];
+  (function clearRetired(){
+    var changed=false;
+    Object.keys(overrides).forEach(function(k){
+      if(RETIRED.indexOf(overrides[k])!==-1){ delete overrides[k]; changed=true; }
+    });
+    if(changed) saveOverrides(overrides);
+  })();
   function linkFor(key){ return overrides.hasOwnProperty(key) ? overrides[key] : (DEFAULTS[key]||""); }
 
   function renderBuiltins(){
